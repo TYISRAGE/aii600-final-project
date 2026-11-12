@@ -1,40 +1,23 @@
 # Data
 
-The files the notebook reads are not committed. When the terms let you republish them, they are assets on the GitHub release tagged `data`. The release is public. When the terms let you download the files but not republish them, do not create that release. Write the command that downloads them from the source, and say what it needs (an account, a key in `.env`, a path).
+Source: UCI Machine Learning Repository, "Spambase" dataset (https://archive.ics.uci.edu/dataset/94/spambase), DOI 10.24432/C53G6X. Released under CC BY 4.0, which permits republishing, so the file is attached to this fork's `data` GitHub release rather than committed to git.
 
-`OWNER/REPO` is your fork, the form `username/aii600-final-project`. In the clone, once:
+- File: `data/spambase.csv` (renamed from the source's `spambase.data`; comma-separated, no header row — column order follows `spambase.names`)
+- SHA-256: `b1ef93de71f97714d3d7d4f58fc9f718da7bbc8ac8a150eff2778616a8097b12`
+- Unit of observation: one email (57 numeric features + binary spam label)
+- Sample size: 4,601
+- Time span: collected circa 1999 at Hewlett-Packard Labs (exact dates not published by the source)
 
-```bash
-gh repo set-default OWNER/REPO
-```
-
-Create the release from the project root, after the files are in this folder:
-
-```bash
-gh release create data data/your-file.csv --repo OWNER/REPO --title "Data" --notes "See data/README.md"
-```
-
-Add every file the notebook reads. When a file changes:
+Download from the source directly:
 
 ```bash
-gh release upload data data/your-file.csv --repo OWNER/REPO --clobber
+curl -sL https://archive.ics.uci.edu/static/public/94/spambase.zip -o data/raw/spambase.zip
+unzip -o data/raw/spambase.zip -d data/raw
+cp data/raw/spambase.data data/spambase.csv
 ```
 
-On another machine:
+Or, once the release exists:
 
 ```bash
-gh release download data --dir data --repo OWNER/REPO
+gh release download data --dir data --repo TYISRAGE/aii600-final-project
 ```
-
-Record a SHA-256 for each file. Replacing a file with `--clobber` does not show up in git, so update the hash in the same commit:
-
-```bash
-shasum -a 256 data/your-file.csv
-```
-
-Replace the lines below.
-
-- Source, and whether the terms let you republish the files.
-- File names. On the `data` release, or the command that downloads them from the source.
-- SHA-256 of each file.
-- Unit of observation, sample size, and time span.
